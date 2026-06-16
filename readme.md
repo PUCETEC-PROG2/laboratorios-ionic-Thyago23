@@ -2,9 +2,9 @@
 
 ## Información del Estudiante
 
-- **Nombre:** [Tu nombre completo aquí]
-- **Carrera:** [Tu carrera]
-- **Fecha de inicio:** [Fecha]
+- **Nombre:** Santiago Cedeño
+- **Carrera:** Desarrollo de sofware
+- **Fecha de inicio:** 16/06/2026
 
 ---
 

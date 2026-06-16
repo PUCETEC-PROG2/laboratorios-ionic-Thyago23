@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import ProfileTab from '../components/ProfileTab';
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
@@ -7,17 +7,14 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
+          <IonTitle>Perfil de usuario</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Tab 1 page" />
-      </IonContent>
+      {/* ProfileTab ya contiene su propio IonContent, pero podemos colocarlo aquí. 
+          Como ProfileTab usa IonContent, podríamos simplemente retornar ProfileTab
+          o cambiar ProfileTab para que no tenga IonContent y ponerlo adentro. 
+          Vamos a dejar que ProfileTab sea el contenido directamente. */}
+      <ProfileTab />
     </IonPage>
   );
 };
