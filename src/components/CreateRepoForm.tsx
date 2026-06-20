@@ -17,7 +17,7 @@ const CreateRepoForm: React.FC = () => {
         description
       };
       await githubService.createRepo(repoData);
-      
+
       present({
         message: 'Repositorio creado exitosamente',
         duration: 3000,
@@ -25,7 +25,6 @@ const CreateRepoForm: React.FC = () => {
         position: 'bottom'
       });
 
-      // Limpiar formulario
       setName('');
       setDescription('');
 
