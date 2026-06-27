@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonItem, IonLabel, IonBadge, IonIcon, IonItemSliding, IonItemOptions, IonItemOption, IonAvatar } from '@ionic/react';
-import { starOutline, pencil, trash } from 'ionicons/icons';
+import { IonItem, IonLabel, IonIcon, IonItemSliding, IonItemOptions, IonItemOption, IonAvatar } from '@ionic/react';
+import { pencil, trash } from 'ionicons/icons';
+import './RepoItem.css';
 
 export interface RepoItemProps {
   name: string;
@@ -9,27 +10,22 @@ export interface RepoItemProps {
   language: string;
   url: string;
   avatarUrl?: string;
+  onDelete?: () => void;
 }
 
-const RepoItem: React.FC<RepoItemProps> = ({ name, description, stars, language, url, avatarUrl }) => {
+const RepoItem: React.FC<RepoItemProps> = ({ name, description, stars, language, url, avatarUrl, onDelete }) => {
   return (
     <IonItemSliding>
       <IonItem button detail={true} href={url} target="_blank">
         {avatarUrl && (
-          <IonAvatar slot="start">
+          <IonAvatar slot="start" className="square-avatar">
             <img src={avatarUrl} alt="Owner avatar" />
           </IonAvatar>
         )}
         <IonLabel className="ion-text-wrap">
           <h2>{name}</h2>
-          <p>{description}</p>
-          <div style={{ display: 'flex', alignItems: 'center', marginTop: '8px', gap: '8px' }}>
-            {language && <IonBadge color="primary">{language}</IonBadge>}
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <IonIcon icon={starOutline} />
-              {stars}
-            </span>
-          </div>
+          {description && <p>{description}</p>}
+          <p>Lenguaje: {language || ''}</p>
         </IonLabel>
       </IonItem>
       
@@ -37,7 +33,7 @@ const RepoItem: React.FC<RepoItemProps> = ({ name, description, stars, language,
         <IonItemOption color="primary" onClick={() => console.log('Edit clicked')}>
           <IonIcon slot="icon-only" icon={pencil} />
         </IonItemOption>
-        <IonItemOption color="danger" onClick={() => console.log('Delete clicked')}>
+        <IonItemOption color="danger" onClick={onDelete}>
           <IonIcon slot="icon-only" icon={trash} />
         </IonItemOption>
       </IonItemOptions>

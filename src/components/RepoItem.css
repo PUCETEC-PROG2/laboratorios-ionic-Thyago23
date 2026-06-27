@@ -1,0 +1,7 @@
+.square-avatar {
+  border-radius: 0;
+}
+
+.square-avatar img {
+  border-radius: 0 !important;
+}

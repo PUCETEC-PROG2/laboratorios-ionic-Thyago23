@@ -1,0 +1,11 @@
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.form-container form {
+  width: 100%;
+  padding-bottom: 20%; /* Optional: shifts it slightly above exact center which looks better visually */
+}

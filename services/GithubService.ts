@@ -1,32 +1,4 @@
-export interface UserProfile {
-  login: string;
-  avatar_url: string;
-  name: string;
-  bio: string;
-  public_repos: number;
-  total_private_repos: number;
-  followers: number;
-}
-
-export interface Repository {
-  id: number;
-  name: string;
-  description: string;
-  stargazers_count: number;
-  language: string;
-  private: boolean;
-  html_url: string;
-  owner: {
-    avatar_url: string;
-    login: string;
-  };
-}
-
-export interface CreateRepoData {
-  name: string;
-  description?: string;
-  private?: boolean;
-}
+import { UserProfile, Repository, CreateRepoData } from '../src/interfaces/Repository';
 
 const GITHUB_API_URL = 'https://api.github.com';
 
@@ -70,5 +42,15 @@ export const githubService = {
       throw new Error(`Failed to create repository: ${response.statusText}`);
     }
     return response.json();
+  },
+
+  deleteRepo: async (owner: string, repo: string): Promise<void> => {
+    const response = await fetch(`${GITHUB_API_URL}/repos/${owner}/${repo}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete repository: ${response.statusText}`);
+    }
   }
 };
