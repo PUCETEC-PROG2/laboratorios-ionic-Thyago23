@@ -11,9 +11,10 @@ export interface RepoItemProps {
   url: string;
   avatarUrl?: string;
   onDelete?: () => void;
+  onEdit?: () => void;
 }
 
-const RepoItem: React.FC<RepoItemProps> = ({ name, description, stars, language, url, avatarUrl, onDelete }) => {
+const RepoItem: React.FC<RepoItemProps> = ({ name, description, stars, language, url, avatarUrl, onDelete, onEdit }) => {
   return (
     <IonItemSliding>
       <IonItem button detail={true} href={url} target="_blank">
@@ -30,7 +31,7 @@ const RepoItem: React.FC<RepoItemProps> = ({ name, description, stars, language,
       </IonItem>
       
       <IonItemOptions side="end">
-        <IonItemOption color="primary" onClick={() => console.log('Edit clicked')}>
+        <IonItemOption color="primary" onClick={onEdit}>
           <IonIcon slot="icon-only" icon={pencil} />
         </IonItemOption>
         <IonItemOption color="danger" onClick={onDelete}>

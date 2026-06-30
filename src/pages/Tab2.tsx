@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonListHeader, IonLabel, useIonToast } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonListHeader, IonLabel, useIonToast, IonAlert } from '@ionic/react';
 import { githubService } from '../../services/GithubService';
 import { Repository } from '../interfaces/Repository';
 import RepoItem from '../components/RepoItem';
@@ -11,6 +11,8 @@ const Tab2: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [present] = useIonToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const [repoToEdit, setRepoToEdit] = useState<Repository | null>(null);
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -40,6 +42,35 @@ const Tab2: React.FC = () => {
     } catch (err: any) {
       present({
         message: `Error al eliminar repositorio: ${err.message}`,
+        duration: 3000,
+        color: 'danger',
+        position: 'bottom'
+      });
+    }
+  };
+
+  const handleEditClick = (repo: Repository) => {
+    setRepoToEdit(repo);
+    setIsEditing(true);
+  };
+
+  const handleEditSubmit = async (data: any) => {
+    if (!repoToEdit) return;
+    try {
+      const updatedRepo = await githubService.updateRepo(repoToEdit.owner.login, repoToEdit.name, {
+        name: data.name,
+        description: data.description
+      });
+      setRepos(repos.map(r => r.id === updatedRepo.id ? updatedRepo : r));
+      present({
+        message: 'Repositorio actualizado exitosamente',
+        duration: 3000,
+        color: 'success',
+        position: 'bottom'
+      });
+    } catch (err: any) {
+      present({
+        message: `Error al actualizar repositorio: ${err.message}`,
         duration: 3000,
         color: 'danger',
         position: 'bottom'
@@ -84,11 +115,42 @@ const Tab2: React.FC = () => {
                 url={repo.html_url}
                 avatarUrl={repo.owner?.avatar_url}
                 onDelete={() => handleDelete(repo.owner.login, repo.name, repo.id)}
+                onEdit={() => handleEditClick(repo)}
               />
             ))}
           </IonList>
         </IonContent>
       )}
+      
+      <IonAlert
+        isOpen={isEditing}
+        onDidDismiss={() => setIsEditing(false)}
+        header="Editar Repositorio"
+        inputs={[
+          {
+            name: 'name',
+            type: 'text',
+            value: repoToEdit?.name,
+            placeholder: 'Nombre del repositorio'
+          },
+          {
+            name: 'description',
+            type: 'textarea',
+            value: repoToEdit?.description,
+            placeholder: 'Descripción'
+          }
+        ]}
+        buttons={[
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+          {
+            text: 'Guardar',
+            handler: handleEditSubmit
+          }
+        ]}
+      />
     </IonPage>
   );
 };

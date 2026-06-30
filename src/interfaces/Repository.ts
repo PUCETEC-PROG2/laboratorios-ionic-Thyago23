@@ -27,3 +27,9 @@ export interface CreateRepoData {
   description?: string;
   private?: boolean;
 }
+
+export interface UpdateRepoData {
+  name?: string;
+  description?: string;
+  private?: boolean;
+}

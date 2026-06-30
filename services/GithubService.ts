@@ -1,4 +1,4 @@
-import { UserProfile, Repository, CreateRepoData } from '../src/interfaces/Repository';
+import { UserProfile, Repository, CreateRepoData, UpdateRepoData } from '../src/interfaces/Repository';
 
 const GITHUB_API_URL = 'https://api.github.com';
 
@@ -52,5 +52,17 @@ export const githubService = {
     if (!response.ok) {
       throw new Error(`Failed to delete repository: ${response.statusText}`);
     }
+  },
+
+  updateRepo: async (owner: string, repo: string, repoData: UpdateRepoData): Promise<Repository> => {
+    const response = await fetch(`${GITHUB_API_URL}/repos/${owner}/${repo}`, {
+      method: 'PATCH',
+      headers: getHeaders(),
+      body: JSON.stringify(repoData)
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update repository: ${response.statusText}`);
+    }
+    return response.json();
   }
 };
